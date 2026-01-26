@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8"><title>İş Listesi</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #1e272e; color: #ecf0f1; padding: 20px; }
+        h2 { text-align: center; color: #f1c40f; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        table { width: 100%; border-collapse: collapse; background-color: #2f3640; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-radius: 12px; overflow: hidden; }
+        
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #353b48; vertical-align: middle; }
+        th { background-color: #0984e3; color: white; font-weight: bold; text-transform: uppercase; font-size: 14px; }
+        tr:hover { background-color: #353b48; transition: 0.2s; }
+        
+        /* Renkli Rozetler */
+        .id-badge { background: #74b9ff; color: #1e272e; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 13px; }
+        .model-text { color: #f1c40f; font-weight: bold; font-size: 16px; }
+        .tutar-text { color: #2ecc71; font-weight: bold; font-size: 16px; }
+
+        /* BUTONLAR */
+        .btn-detay { 
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe); 
+            color: white; padding: 8px 15px; text-decoration: none; border-radius: 6px; 
+            font-size: 13px; font-weight: bold; cursor: pointer; border: none; transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+        }
+        .btn-detay:hover { transform: scale(1.05); filter: brightness(1.1); }
+        
+        .btn-sil { 
+            background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c;
+            padding: 7px 12px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: bold; transition: 0.2s; 
+        }
+        .btn-sil:hover { background: #e74c3c; color: white; }
+        
+        .btn-geri { display: inline-block; background-color: #636e72; color: white; padding: 12px 20px; text-decoration: none; border-radius: 8px; margin-bottom: 20px; font-weight: bold; }
+
+        /* --- POP-UP (MODAL) TASARIMI --- */
+        .modal {
+            display: none; /* Gizli başlar */
+            position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8); /* Karartma */
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #2f3640; margin: 10% auto; padding: 30px; border: 1px solid #57606f;
+            width: 90%; max-width: 500px; border-radius: 15px; text-align: center; position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7); animation: animasyon 0.3s;
+        }
+        @keyframes animasyon { from {top:-50px; opacity:0} to {top:10%; opacity:1} }
+        
+        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: #e74c3c; }
+        
+        .detay-satir { 
+            background: #353b48; margin: 10px 0; padding: 10px; border-radius: 8px; 
+            display: flex; justify-content: space-between; border-left: 4px solid #f1c40f; 
+        }
+    </style>
+    <script>
+        function acModal(id) {
+            document.getElementById('modal-' + id).style.display = "block";
+        }
+        function kapatModal(id) {
+            document.getElementById('modal-' + id).style.display = "none";
+        }
+        // Boşluğa tıklayınca kapatma
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <a href="/" class="btn-geri">⬅ Menüye Dön</a>
+    <h2>📋 GİDEN İŞLER LİSTESİ</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 5%;">ID</th>
+                <th>Model</th>
+                <th>Tarih</th>
+                <th>Toplam Adet</th>
+                <th>Toplam Kilo</th>
+                <th>Tutar</th>
+                <th style="text-align:center;">Detaylar</th>
+                <th style="text-align:center;">İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fis in fisler %}
+            <tr>
+                <td><span class="id-badge">#{{ fis[0] }}</span></td>
+                <td><span class="model-text">{{ fis[1] }}</span></td>
+                <td>{{ fis[7] }}</td>
+                <td>{{ fis[4] }} Ad.</td>
+                <td>{{ fis[5] }} Kg</td>
+                <td><span class="tutar-text">{{ fis[6] }} TL</span></td>
+                
+                <td style="text-align:center;">
+                    <button class="btn-detay" onclick="acModal('{{ fis[0] }}')">👁️ Detay Gör</button>
+                    
+                    <div id="modal-{{ fis[0] }}" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="kapatModal('{{ fis[0] }}')">&times;</span>
+                            <h2 style="color:#f1c40f; border-bottom:2px solid #57606f; padding-bottom:10px;">{{ fis[1] }} - Detaylar</h2>
+                            <p style="color:#bdc3c7;">Fiş No: #{{ fis[0] }} | Tarih: {{ fis[7] }}</p>
+                            
+                            <div style="text-align:left; margin-top:20px;">
+                                {% if fis[0] in detaylar %}
+                                    {% for d in detaylar[fis[0]] %}
+                                        <div class="detay-satir">
+                                            <span style="font-weight:bold; color:white;">🎨 {{ d[2] }}</span>
+                                            <span>{{ d[3] }} Adet</span>
+                                            <span style="color:#f1c40f;">{{ d[4] }} Kg</span>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>Detay bulunamadı.</p>
+                                {% endif %}
+                            </div>
+                            
+                            <div style="margin-top:20px; border-top:1px solid #57606f; padding-top:10px;">
+                                <b>Toplam Tutar: <span style="color:#2ecc71;">{{ fis[6] }} TL</span></b>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                
+                <td style="text-align:center;">
+                    <a href="/sil-fis/{{ fis[0] }}" class="btn-sil" onclick="return confirm('Bu kaydı silmek istediğine emin misin?')">🗑 Sil</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

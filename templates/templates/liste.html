@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>İş Listesi ve Ciro</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background-color: #f4f4f9; }
+        
+        .btn-menu { 
+            display: inline-block; text-decoration: none; 
+            background-color: #6c757d; color: white; 
+            padding: 10px 20px; border-radius: 5px; margin-bottom: 20px; 
+            font-weight: bold;
+        }
+        .btn-menu:hover { background-color: #5a6268; }
+
+        /* ÖZET KARTLARI STİLİ */
+        .ozet-alani { display: flex; gap: 20px; margin-bottom: 30px; }
+        .ozet-kart {
+            flex: 1;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .kart-mavi { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .kart-yesil { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        
+        .ozet-kart h3 { margin: 0; font-size: 18px; opacity: 0.9; }
+        .ozet-kart .sayi { font-size: 32px; font-weight: bold; margin-top: 10px; display: block; }
+
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
+        th, td { padding: 15px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #343a40; color: white; }
+        tr:hover { background-color: #f1f1f1; }
+    </style>
+</head>
+<body>
+
+    <a href="/" class="btn-menu">🏠 Ana Menüye Dön</a>
+
+    <div class="ozet-alani">
+        <div class="ozet-kart kart-mavi">
+            <h3>Toplam Üretilen Adet</h3>
+            <span class="sayi">{{ top_adet }} Adet</span>
+        </div>
+        <div class="ozet-kart kart-yesil">
+            <h3>Toplam Tahmini Ciro</h3>
+            <span class="sayi">{{ top_para }} TL</span>
+        </div>
+    </div>
+
+    <h2 style="color:#333;">📋 Kayıtlı İşler Arşivi</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tarih</th>
+                <th>Model Adı</th>
+                <th>Süre</th>
+                <th>Dk Ücreti</th>
+                <th>Adet</th>
+                <th>Toplam Tutar</th>
+                <th>İŞLEM</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for kayit in kayitlar %}
+            <tr>
+                <td>{{ kayit[6] }}</td> 
+                <td style="font-weight:bold;">{{ kayit[1] }}</td>
+                <td>{{ kayit[2] }} dk</td>
+                <td>{{ kayit[3] }} TL</td>
+                <td>{{ kayit[4] }}</td>
+                <td style="color:green; font-weight:bold;">{{ kayit[5] }} TL</td>
+                <td style="text-align:center;">
+    <a href="/sil-is/{{ kayit[0] }}" onclick="return confirm('Akhi bu kaydı siliyorsun, emin misin?')" style="text-decoration:none; background-color:#dc3545; color:white; padding:5px 10px; border-radius:5px;">🗑️ Sil</a>
+</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

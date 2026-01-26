@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8"><title>Gider Gir</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #1e272e; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .kutu { background-color: #2f3640; padding: 40px; border-radius: 20px; width: 100%; max-width: 500px; text-align: center; border: 1px solid #353b48; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        h2 { color: #e74c3c; border-bottom: 3px solid #e74c3c; padding-bottom: 15px; display: inline-block; font-size: 28px; margin-top:0; }
+        
+        /* DÜZELTME: box-sizing ve width %100 */
+        input, select { 
+            width: 100%; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 10px; 
+            border: 2px solid #353b48; 
+            font-weight: bold; 
+            background: #dfe4ea; 
+            color: #2f3640; 
+            font-size: 16px; 
+            outline: none; 
+            box-sizing: border-box; /* Taşmayı önler */
+        }
+        input:focus, select:focus { border-color: #e74c3c; background: white; }
+
+        .btn-kaydet { width: 100%; padding: 18px; background: linear-gradient(135deg, #c0392b, #e74c3c); color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 20px; margin-top: 20px; font-weight: bold; transition: 0.3s; box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); }
+        .btn-kaydet:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(231, 76, 60, 0.6); }
+
+        .btn-geri { display: block; margin-top: 20px; color: #7f8fa6; text-decoration: none; }
+        .btn-geri:hover { color: white; }
+    </style>
+</head>
+<body>
+    <div class="kutu">
+        <h2>💸 GİDER GİR</h2>
+        {% if mesaj %}<div style="background:#c0392b; color:white; padding:15px; border-radius:10px; margin-bottom:20px; font-weight:bold;">{{ mesaj }}</div>{% endif %}
+        <form method="POST">
+            <select name="gider_turu">
+                <option>İşçi Ödemesi</option>
+                <option>Malzeme Alımı</option>
+                <option>Yemek / Mutfak</option>
+                <option>Fatura / Kira</option>
+                <option>Diğer</option>
+            </select>
+            <input type="text" name="aciklama" placeholder="Açıklama (Kime / Ne için?)" required>
+            <input type="number" step="0.01" name="tutar" placeholder="Tutar (TL)" required>
+            <button type="submit" class="btn-kaydet">KASADAN DÜŞ</button>
+        </form>
+        <a href="/" class="btn-geri">⬅ Ana Menüye Dön</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>İplik Girişi</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .kutu { background: white; max-width: 600px; margin: 0 auto; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        input, select { width: 100%; padding: 12px; margin: 5px 0 15px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;}
+        label { font-weight: bold; color: #333; }
+        
+        .btn-kaydet { width: 100%; padding: 15px; background-color: #e67e22; color: white; border: none; cursor: pointer; font-size: 18px; border-radius: 5px; font-weight: bold;}
+        .btn-kaydet:hover { background-color: #d35400; }
+        
+        .btn-menu { display: inline-block; text-decoration: none; background-color: #6c757d; color: white; padding: 8px 15px; border-radius: 5px; margin-bottom: 20px;}
+
+        /* SEÇENEK BUTONLARI */
+        .secenekler { display: flex; gap: 20px; margin-bottom: 15px; background: #eee; padding: 10px; border-radius: 5px; }
+        .secenek-label { font-weight: normal; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .secenek-label input { width: auto; margin: 0; }
+
+        .cuval-kutusu { display: flex; gap: 10px; flex-wrap: wrap; }
+        .kucuk-input { width: 48%; } 
+        
+        .sonuc { background-color: #d4edda; color: #155724; padding: 15px; margin-top: 20px; border-radius: 5px; text-align: center;}
+    </style>
+    
+    <script>
+        function modDegistir() {
+            var mod = document.querySelector('input[name="giris_turu"]:checked').value;
+            var detayAlani = document.getElementById("detayli_giris_alani");
+            var topluAlani = document.getElementById("toplu_giris_alani");
+            
+            if (mod === "tek_tek") {
+                detayAlani.style.display = "block";
+                topluAlani.style.display = "none";
+                kutulariOlustur(); // Kutuları tekrar hesapla
+            } else {
+                detayAlani.style.display = "none";
+                topluAlani.style.display = "block";
+            }
+        }
+
+        function kutulariOlustur() {
+            var adet = document.getElementById("cuval_sayisi").value;
+            var alan = document.getElementById("kilo_kutulari");
+            alan.innerHTML = "";
+            
+            // Eğer "Tek Tek" modu seçiliyse kutuları oluştur
+            var mod = document.querySelector('input[name="giris_turu"]:checked').value;
+            if (mod === "tek_tek" && adet > 0) {
+                for (var i = 1; i <= adet; i++) {
+                    var input = document.createElement("input");
+                    input.type = "number";
+                    input.step = "0.01";
+                    input.name = "kilo[]"; 
+                    input.placeholder = i + ". Çuval (KG)";
+                    input.className = "kucuk-input";
+                    alan.appendChild(input);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="kutu">
+    <a href="/" class="btn-menu">🏠 Ana Menü</a>
+    <a href="/iplik-listesi" class="btn-menu" style="float:right; background-color:#17a2b8;">📋 Liste</a>
+
+    <h2 style="text-align:center; color:#e67e22;">🧶 İplik Girişi</h2>
+    <hr>
+
+    <form method="POST">
+        <label>İplik Cinsi:</label>
+        <input type="text" name="iplik_cinsi" required placeholder="Örn: 30/1 Penye">
+
+        <label>Renk:</label>
+        <input type="text" name="renk" required placeholder="Örn: Siyah">
+
+        <label>Lot No:</label>
+        <input type="text" name="lot_no" required placeholder="Parti No">
+
+        <label>Çuval Adeti:</label>
+        <input type="number" id="cuval_sayisi" name="cuval_adeti" required placeholder="Sayı Giriniz" oninput="kutulariOlustur()">
+
+        <label>Giriş Yöntemi:</label>
+        <div class="secenekler">
+            <label class="secenek-label">
+                <input type="radio" name="giris_turu" value="tek_tek" checked onchange="modDegistir()"> 
+                Çuvalları Tek Tek Gir
+            </label>
+            <label class="secenek-label">
+                <input type="radio" name="giris_turu" value="toplu" onchange="modDegistir()"> 
+                Direkt Toplam Kilo Gir
+            </label>
+        </div>
+
+        <div id="detayli_giris_alani">
+            <div style="background-color: #fff3cd; padding: 10px; margin-bottom: 10px; font-size: 14px; border-radius:5px;">
+                👇 Çuval kilolarını aşağıya giriniz:
+            </div>
+            <div id="kilo_kutulari" class="cuval-kutusu"></div>
+        </div>
+
+        <div id="toplu_giris_alani" style="display:none;">
+            <label style="color:#d35400;">Toplam Kantar Ağırlığı (KG):</label>
+            <input type="number" step="0.01" name="manuel_toplam_kilo" placeholder="Örn: 1250.5">
+        </div>
+
+        <br>
+        <button type="submit" class="btn-kaydet">💾 KAYDET</button>
+    </form>
+
+    {% if mesaj %}
+    <div class="sonuc"><h3>{{ mesaj }}</h3></div>
+    {% endif %}
+</div>
+
+</body>
+</html>

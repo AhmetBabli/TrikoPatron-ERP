@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Giden İş Fişi</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .kutu { background: white; max-width: 700px; margin: 0 auto; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .btn-menu { display: inline-block; text-decoration: none; background-color: #6c757d; color: white; padding: 8px 15px; border-radius: 5px; font-weight: bold; margin-bottom:15px;}
+        
+        input { padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        label { font-weight: bold; display: block; margin-top: 10px; }
+        
+        /* Satır Stili */
+        .satir { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+        .satir input { flex: 1; }
+        .btn-sil { background-color: #dc3545; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+        
+        .btn-ekle { background-color: #17a2b8; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 20px; }
+        .btn-kaydet { background-color: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 5px; cursor: pointer; font-size: 18px; font-weight: bold; }
+    </style>
+    
+    <script>
+        function satirEkle() {
+            var alan = document.getElementById("renkler_alani");
+            var yeniSatir = document.createElement("div");
+            yeniSatir.className = "satir";
+            
+            yeniSatir.innerHTML = `
+                <input type="text" name="renk[]" placeholder="Renk Adı (Örn: Siyah)" required>
+                <input type="number" name="adet[]" placeholder="Adet" required>
+                <input type="number" step="0.01" name="kilo[]" placeholder="Kilo" required>
+                <button type="button" class="btn-sil" onclick="this.parentElement.remove()">X</button>
+            `;
+            alan.appendChild(yeniSatir);
+        }
+    </script>
+</head>
+<body>
+
+<div class="kutu">
+    <a href="/" class="btn-menu">🏠 Ana Menü</a>
+    <a href="/giden-is-listesi" class="btn-menu" style="background-color:#007bff; float:right;">📋 Fiş Listesi</a>
+
+    <h2 style="text-align:center; border-bottom: 2px solid #eee; padding-bottom:10px;">🧾 Giden İş Fişi Kes</h2>
+
+    <form method="POST">
+        <div style="background:#f8f9fa; padding:15px; border-radius:8px; margin-bottom:20px;">
+            <label>Model Adı:</label>
+            <input type="text" name="model_adi" style="width:100%;" required placeholder="Örn: V Yaka Kazak">
+            
+            <div style="display:flex; gap:10px;">
+                <div style="flex:1;">
+                    <label>Süre (Dk):</label>
+                    <input type="number" step="0.1" name="sure_dk" style="width:100%;" required>
+                </div>
+                <div style="flex:1;">
+                    <label>Dk Ücreti (TL):</label>
+                    <input type="number" step="0.01" name="dk_ucreti" style="width:100%;" required>
+                </div>
+            </div>
+        </div>
+
+        <label>Renkler / Adetler / Kilolar:</label>
+        <div id="renkler_alani">
+            <div class="satir">
+                <input type="text" name="renk[]" placeholder="Renk Adı (Örn: Siyah)" required>
+                <input type="number" name="adet[]" placeholder="Adet" required>
+                <input type="number" step="0.01" name="kilo[]" placeholder="Kilo" required>
+                <button type="button" class="btn-sil" onclick="this.parentElement.remove()">X</button>
+            </div>
+        </div>
+
+        <button type="button" class="btn-ekle" onclick="satirEkle()">+ Başka Renk Ekle</button>
+        <button type="submit" class="btn-kaydet">💾 FİŞİ OLUŞTUR VE KAYDET</button>
+    </form>
+    
+    {% if mesaj %}
+    <h3 style="color:green; text-align:center;">{{ mesaj }}</h3>
+    {% endif %}
+</div>
+
+</body>
+</html>

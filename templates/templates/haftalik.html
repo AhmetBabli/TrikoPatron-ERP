@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Haftalık Rapor</title>
+    <style>
+        body{font-family:sans-serif; background:#2c3e50; color:white; padding:20px;}
+        table{width:100%; background:#34495e; border-collapse:collapse; margin-bottom:20px;}
+        td,th{padding:10px; border-bottom:1px solid #2c3e50;}
+    </style>
+</head>
+<body>
+    <div style="max-width:1000px; margin:auto;">
+        <h2>📅 HAFTALIK RAPOR ({{ baslangic }}'den Bugüne)</h2>
+        
+        <h3>1. YAPILAN İŞLER (CİRO)</h3>
+        <table>
+            {% for x in isler %}<tr><td>{{ x[7] }}</td><td>{{ x[1] }}</td><td>{{ x[6] }} TL</td></tr>{% endfor %}
+            <tr><td><b>TOPLAM</b></td><td></td><td><b>{{ top_is }} TL</b></td></tr>
+        </table>
+
+        <h3>2. TAHSİLATLAR (GİREN)</h3>
+        <table>
+            {% for x in odemeler %}<tr><td>{{ x[3] }}</td><td>{{ x[1] }}</td><td>{{ x[2] }} TL</td></tr>{% endfor %}
+            <tr><td><b>TOPLAM</b></td><td></td><td><b>{{ top_odeme }} TL</b></td></tr>
+        </table>
+
+        <h3>3. GİDERLER (ÇIKAN)</h3>
+        <table>
+            {% for x in giderler %}<tr><td>{{ x[4] }}</td><td>{{ x[2] }}</td><td>{{ x[3] }} TL</td></tr>{% endfor %}
+            <tr><td><b>TOPLAM</b></td><td></td><td><b>{{ top_gider }} TL</b></td></tr>
+        </table>
+
+        <div style="background:#8e44ad; padding:20px; text-align:center; font-size:24px;">
+            HAFTALIK NET KASA: <b>{{ net }} TL</b>
+        </div>
+        <br><a href="/" style="color:white; display:block; text-align:center;">ANA MENÜ</a>
+    </div>
+</body>
+</html>

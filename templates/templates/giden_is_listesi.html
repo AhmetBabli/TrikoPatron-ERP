@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Giden İş Listesi</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background-color: #f4f4f9; }
+        .btn-menu { display: inline-block; text-decoration: none; background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; margin-bottom: 20px; font-weight: bold; }
+        
+        .fis-karti { background: white; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; border: 1px solid #ddd; }
+        .fis-baslik { background-color: #343a40; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .fis-detay-tablosu { width: 100%; border-collapse: collapse; }
+        .fis-detay-tablosu th { background-color: #eee; text-align: left; padding: 8px; font-size: 14px; color: #555; }
+        .fis-detay-tablosu td { padding: 8px; border-bottom: 1px solid #eee; }
+        
+        .ozet-bilgi { display: flex; gap: 20px; padding: 10px; background: #f8f9fa; border-bottom: 1px solid #eee; font-weight: bold; color: #495057; }
+    </style>
+</head>
+<body>
+
+    <a href="/" class="btn-menu">🏠 Ana Menü</a>
+    <a href="/giden-is-ekle" class="btn-menu" style="background-color:#28a745;">+ Yeni Fiş Kes</a>
+
+    <h2>📋 Kesilen İş Fişleri</h2>
+
+    {% for fis in fisler %}
+        <div class="fis-karti">
+            <div class="fis-baslik">
+                <div style="font-size:18px;">
+                    <strong>{{ fis[1] }}</strong> <small>({{ fis[7] }})</small>
+                </div>
+                <div style="text-align:right;">
+                    <span style="color:#7bff7b; font-size:20px;">{{ fis[6] }} TL</span>
+                    <br>
+                    <a href="/sil-fis/{{ fis[0] }}" onclick="return confirm('Bu fişi komple siliyorsun?')" style="color:#ffadad; font-size:12px; text-decoration:none;">[Fişi Sil]</a>
+                </div>
+            </div>
+
+            <div class="ozet-bilgi">
+                <span>⏱️ {{ fis[2] }} dk</span>
+                <span>💰 Dk Fiyatı: {{ fis[3] }} TL</span>
+                <span>📦 Toplam Adet: {{ fis[4] }}</span>
+                <span>⚖️ Toplam Kilo: {{ fis[5] }}</span>
+            </div>
+
+            <table class="fis-detay-tablosu">
+                <thead>
+                    <tr>
+                        <th>Renk</th>
+                        <th>Adet</th>
+                        <th>Kilo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if fis[0] in detaylar %}
+                        {% for satir in detaylar[fis[0]] %}
+                        <tr>
+                            <td>{{ satir[2] }}</td>
+                            <td>{{ satir[3] }} Adet</td>
+                            <td>{{ satir[4] }} KG</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td colspan="3">Detay yok</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+
+</body>
+</html>

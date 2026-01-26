@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8"><title>İplik Listesi</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #1e272e; color: #ecf0f1; padding: 20px; margin: 0; }
+        
+        /* ANA DÜZEN (Izgara Sistemi) */
+        .container {
+            display: grid;
+            grid-template-columns: 280px 1fr; /* Sol: 280px, Sağ: Geri Kalan */
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* --- SOL PANEL: RENK ÖZETİ --- */
+        .ozet-panel {
+            background-color: #2f3640;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #353b48;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            height: fit-content; /* İçerik kadar uza */
+        }
+        .ozet-baslik {
+            color: #f1c40f;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .renk-karti {
+            background: #353b48;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #9b59b6;
+        }
+        .renk-adi { font-weight: bold; color: #dcdde1; }
+        .renk-kilo { color: #f1c40f; font-weight: bold; }
+
+        /* --- SAĞ PANEL: DETAYLI TABLO --- */
+        .liste-panel {
+            background-color: #2f3640;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #353b48;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        h2 { text-align: center; color: #9b59b6; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; margin-top: 0; }
+        
+        table { width: 100%; border-collapse: collapse; background-color: #2f3640; border-radius: 12px; overflow: hidden; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #353b48; vertical-align: middle; }
+        th { background-color: #8e44ad; color: white; font-weight: bold; font-size: 14px; }
+        tr:hover { background-color: #353b48; transition: 0.2s; }
+        
+        .btn-sil { 
+            background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c;
+            padding: 7px 12px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: bold; transition: 0.2s; 
+        }
+        .btn-sil:hover { background: #e74c3c; color: white; }
+        
+        .btn-geri { 
+            display: inline-block; background-color: #636e72; color: white; padding: 10px 20px; 
+            text-decoration: none; border-radius: 8px; margin-bottom: 20px; font-weight: bold; 
+        }
+
+        /* Toplam Bilgi Çubuğu */
+        .toplam-cubuk {
+            background: #1e272e; padding: 10px; border-radius: 8px; text-align: center;
+            margin-bottom: 20px; color: #bdc3c7; font-size: 16px; border: 1px solid #353b48;
+        }
+    </style>
+</head>
+<body>
+
+<div style="max-width:1400px; margin:0 auto;">
+    <a href="/" class="btn-geri">⬅ Menüye Dön</a>
+</div>
+
+<div class="container">
+    
+    <div class="ozet-panel">
+        <div class="ozet-baslik">🎨 RENK BAZLI TOPLAM</div>
+        
+        {% if renk_ozeti %}
+            {% for renk, toplam in renk_ozeti.items() %}
+            <div class="renk-karti">
+                <span class="renk-adi">{{ renk }}</span>
+                <span class="renk-kilo">{{ toplam }} KG</span>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="text-align:center; color:#7f8fa6;">Veri yok.</p>
+        {% endif %}
+
+        <div style="margin-top:20px; text-align:center; font-size:12px; color:#7f8fa6;">
+            * Farklı Lotlar Dahildir.
+        </div>
+    </div>
+
+    <div class="liste-panel">
+        <h2>📦 DETAYLI STOK HAREKETLERİ</h2>
+        
+        <div class="toplam-cubuk">
+            Genel Toplam: <b style="color:white">{{ top_cuval }} Çuval</b> | <b style="color:#f1c40f">{{ top_kilo }} KG</b>
+        </div>
+
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Cins</th><th>Renk</th><th>Lot</th><th>Çuval</th><th>Kilo</th><th>Tarih</th><th>İşlem</th></tr>
+            </thead>
+            <tbody>
+                {% for k in kayitlar %}
+                <tr>
+                    <td>#{{ k[0] }}</td>
+                    <td>{{ k[1] }}</td>
+                    <td style="color:#f1c40f; font-weight:bold;">{{ k[2] }}</td>
+                    <td>{{ k[3] }}</td>
+                    <td>{{ k[4] }}</td>
+                    <td style="font-weight:bold;">{{ k[6] }}</td>
+                    <td>{{ k[7] }}</td>
+                    <td><a href="/sil-iplik/{{ k[0] }}" class="btn-sil" onclick="return confirm('Silinsin mi?')">🗑 Sil</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

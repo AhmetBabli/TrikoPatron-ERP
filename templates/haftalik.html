@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8"><title>Finans Hareketleri</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #1e272e; color: #ecf0f1; padding: 20px; margin: 0; }
+        
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        .baslik { text-align: center; color: #f1c40f; margin-bottom: 30px; border-bottom: 2px solid #f1c40f; padding-bottom: 10px; font-size: 28px; }
+
+        /* ÖZET KARTLARI */
+        .ozet-kutulari { display: flex; justify-content: center; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; }
+        .kart { padding: 20px 40px; border-radius: 15px; text-align: center; font-weight: bold; font-size: 18px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); min-width: 200px; }
+        
+        .kart.gelir { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+        .kart.gider { background: linear-gradient(135deg, #c0392b, #e74c3c); }
+        .kart.net { background: #2f3640; border: 2px solid #f1c40f; color: #f1c40f; }
+
+        /* TABLOLAR YANYANA */
+        .tablolar-alani { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 800px) { .tablolar-alani { grid-template-columns: 1fr; } } /* Telefondaysa alt alta */
+
+        .tablo-kutusu { background: #2f3640; padding: 20px; border-radius: 15px; border: 1px solid #353b48; }
+        .tablo-baslik { text-align: center; font-size: 20px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #353b48; font-size: 14px; }
+        th { color: white; opacity: 0.8; font-size: 12px; text-transform: uppercase; }
+        
+        /* Gider Tablosu Renkleri */
+        .tablo-gider th { background: #c0392b; }
+        .tablo-gider td { color: #ff7675; }
+        
+        /* Gelir Tablosu Renkleri */
+        .tablo-gelir th { background: #27ae60; }
+        .tablo-gelir td { color: #55efc4; }
+
+        .btn-geri { display: inline-block; background-color: #636e72; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; margin-bottom: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="/" class="btn-geri">⬅ Menüye Dön</a>
+    <h1 class="baslik">📊 HAFTALIK FİNANS RAPORU</h1>
+    
+    <div class="ozet-kutulari">
+        <div class="kart gelir">
+            💰 TOPLAM GELİR<br>
+            <span style="font-size:24px; display:block; margin-top:5px;">{{ top_odeme }} TL</span>
+        </div>
+        <div class="kart gider">
+            💸 TOPLAM GİDER<br>
+            <span style="font-size:24px; display:block; margin-top:5px;">{{ top_gider }} TL</span>
+        </div>
+        <div class="kart net">
+            📉 NET DURUM<br>
+            <span style="font-size:24px; display:block; margin-top:5px;">{{ net }} TL</span>
+        </div>
+    </div>
+
+    <div class="tablolar-alani">
+        
+        <div class="tablo-kutusu">
+            <div class="tablo-baslik" style="color:#e74c3c;">💸 GİDER HAREKETLERİ</div>
+            <table class="tablo-gider">
+                <tr><th>Tarih</th><th>Tür</th><th>Açıklama</th><th>Tutar</th></tr>
+                {% for g in giderler %}
+                <tr>
+                    <td style="color:#b2bec3;">{{ g[4] }}</td>
+                    <td>{{ g[1] }}</td>
+                    <td>{{ g[2] }}</td>
+                    <td style="font-weight:bold;">{{ g[3] }} TL</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" style="text-align:center;">Bu hafta gider yok.</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="tablo-kutusu">
+            <div class="tablo-baslik" style="color:#2ecc71;">💰 TAHSİLAT HAREKETLERİ</div>
+            <table class="tablo-gelir">
+                <tr><th>Tarih</th><th>Açıklama</th><th>Tutar</th></tr>
+                {% for o in odemeler %}
+                <tr>
+                    <td style="color:#b2bec3;">{{ o[3] }}</td>
+                    <td>{{ o[1] }}</td>
+                    <td style="font-weight:bold;">{{ o[2] }} TL</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="3" style="text-align:center;">Bu hafta tahsilat yok.</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

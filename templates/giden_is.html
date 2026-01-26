@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8"><title>Giden İş Ekle</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #1e272e; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .kutu { background-color: #2f3640; padding: 40px; border-radius: 20px; width: 100%; max-width: 550px; text-align: center; border: 1px solid #353b48; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        h2 { color: #3498db; border-bottom: 3px solid #3498db; padding-bottom: 15px; display: inline-block; font-size: 28px; margin-top: 0; }
+        
+        input { width: 94%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid #353b48; font-weight: bold; background: #dfe4ea; color: #2f3640; font-size: 16px; outline: none; transition: 0.3s; }
+        input:focus { border-color: #3498db; background: white; }
+        
+        .satir { display: flex; gap: 10px; }
+        .satir input { width: 100%; }
+        
+        .etiket { text-align: left; color: #a4b0be; font-size: 14px; margin-left: 5px; margin-top: 15px; }
+        
+        .btn-ekle { background: #f39c12; color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 10px; font-weight: bold; font-size: 14px; transition: 0.3s; }
+        .btn-ekle:hover { background: #e67e22; }
+
+        .btn-kaydet { width: 100%; padding: 18px; background: linear-gradient(135deg, #2980b9, #3498db); color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 20px; margin-top: 30px; font-weight: bold; transition: 0.3s; box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); }
+        .btn-kaydet:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6); }
+
+        .btn-geri { display: block; margin-top: 20px; color: #7f8fa6; text-decoration: none; transition: 0.3s; }
+        .btn-geri:hover { color: white; }
+    </style>
+    <script>
+        function satirEkle() {
+            var div = document.createElement("div");
+            div.className = "satir";
+            div.innerHTML = '<input type="text" name="renk[]" placeholder="Renk" required><input type="number" name="adet[]" placeholder="Adet" required><input type="number" step="0.01" name="kilo[]" placeholder="Kilo" required>';
+            document.getElementById("renkler").appendChild(div);
+        }
+    </script>
+</head>
+<body>
+    <div class="kutu">
+        <h2>👕 YENİ İŞ EKLE</h2>
+        {% if mesaj %}<div style="background:#27ae60; color:white; padding:15px; border-radius:10px; margin-bottom:20px; font-weight:bold;">{{ mesaj }}</div>{% endif %}
+        <form method="POST">
+            <div class="etiket">Model Bilgisi</div>
+            <input type="text" name="model_adi" placeholder="Örn: Balıkçı Yaka Kazak" required>
+            
+            <div class="satir">
+                <input type="number" step="0.01" name="sure_dk" placeholder="Süre (dk)" required>
+                <input type="number" step="0.01" name="dk_ucreti" placeholder="Dk Ücreti (TL)" required>
+            </div>
+
+            <div class="etiket">Renk Detayları</div>
+            <div id="renkler">
+                <div class="satir">
+                    <input type="text" name="renk[]" placeholder="Renk" required>
+                    <input type="number" name="adet[]" placeholder="Adet" required>
+                    <input type="number" step="0.01" name="kilo[]" placeholder="Kilo" required>
+                </div>
+            </div>
+            <button type="button" class="btn-ekle" onclick="satirEkle()">➕ Başka Renk Ekle</button>
+            <button type="submit" class="btn-kaydet">KAYDET VE BORÇ YAZ</button>
+        </form>
+        <a href="/" class="btn-geri">⬅ Ana Menüye Dön</a>
+    </div>
+</body>
+</html>

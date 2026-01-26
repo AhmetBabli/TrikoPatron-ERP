@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İş Hesapla</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .kutu { background: white; max-width: 500px; margin: 0 auto; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        /* Ana Menü Butonu */
+        .btn-menu { 
+            display: inline-block; 
+            text-decoration: none; 
+            background-color: #6c757d; 
+            color: white; 
+            padding: 8px 15px; 
+            border-radius: 5px; 
+            font-weight: bold; 
+            margin-bottom: 20px;
+        }
+        .btn-menu:hover { background-color: #5a6268; }
+
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;}
+        
+        .btn-hesapla { width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; cursor: pointer; font-size: 16px; border-radius: 5px; font-weight: bold;}
+        .btn-hesapla:hover { background-color: #218838; }
+
+        .sonuc { background-color: #d4edda; color: #155724; padding: 15px; margin-top: 20px; border-radius: 5px; border: 1px solid #c3e6cb; }
+    </style>
+</head>
+<body>
+
+<div class="kutu">
+    <a href="/" class="btn-menu">🏠 Ana Menüye Dön</a>
+    
+    <h2 style="text-align:center; margin-top:0;">Fason Maliyet Hesapla</h2>
+    <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 20px;">
+
+    <form method="POST">
+        <label>Model Adı:</label>
+        <input type="text" name="model_adi" required placeholder="Örn: Kışlık Kazak">
+
+        <label>Süre (Dakika):</label>
+        <input type="number" step="0.1" name="sure_dk" required placeholder="Örn: 15.5">
+
+        <label>Dakika Ücreti (TL):</label>
+        <input type="number" step="0.01" name="dk_ucreti" required placeholder="Örn: 3.5">
+
+        <label>Adet:</label>
+        <input type="number" name="adet" required placeholder="Örn: 1000">
+
+        <button type="submit" class="btn-hesapla">HESAPLA VE KAYDET</button>
+    </form>
+
+    {% if mesaj %}
+    <div class="sonuc">
+        <h3>{{ mesaj }}</h3>
+        <p>Birim Fiyat: <strong>{{ sonuc.birim_fiyat }} TL</strong></p>
+        <p>TOPLAM KAZANÇ: <strong style="font-size:1.2em;">{{ sonuc.toplam_tutar }} TL</strong></p>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
