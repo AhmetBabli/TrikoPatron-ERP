@@ -254,9 +254,16 @@ def haftalik_hesap():
         return render_template('haftalik.html', baslangic=hafta_basi.strftime("%d.%m.%Y"), odemeler=h_ode, top_odeme=t_ode, giderler=h_gid, top_gider=t_gid, net=(t_ode - t_gid))
     except: return "Rapor Hatası"
 
-def tarayici_ac(): webbrowser.open_new("http://127.0.0.1:5000")
+def tarayici_ac(): webbrowser.open_new("http://127.0.0.1:5001")
 
 if __name__ == '__main__':
-    # EXE olduğunda tarayıcıyı otomatik açar
-    Timer(1, tarayici_ac).start()
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    # debug=True Flask'ın reloader'ını (otomatik yeniden başlatma) da açıyordu —
+    # paketlenmiş bir .exe'de bu reloader ikinci bir kopyayı kendi kendine
+    # başlatmaya çalışıp çift tıklamada görünür bir pencere/hata vermeden
+    # sessizce takılıyordu. tarayici_ac() de hiç çağrılmıyordu, o yüzden
+    # sunucu arka planda ayağa kalksa bile kullanıcıya hiçbir şey görünmüyordu.
+    if getattr(sys, 'frozen', False):
+        Timer(1.5, tarayici_ac).start()
+        app.run(debug=False, port=5001)
+    else:
+        app.run(debug=True, port=5001)
