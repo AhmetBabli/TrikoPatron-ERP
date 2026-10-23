@@ -10,28 +10,28 @@
         table { width: 100%; border-collapse: collapse; background-color: #2f3640; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-radius: 12px; overflow: hidden; }
         
         th, td { padding: 15px; text-align: left; border-bottom: 1px solid #353b48; vertical-align: middle; }
-        th { background-color: #0984e3; color: white; font-weight: bold; text-transform: uppercase; font-size: 14px; }
+        th { background-color: #34495e; color: white; font-weight: bold; text-transform: uppercase; font-size: 14px; }
         tr:hover { background-color: #353b48; transition: 0.2s; }
-        
+
         /* Renkli Rozetler */
-        .id-badge { background: #74b9ff; color: #1e272e; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 13px; }
+        .id-badge { background: #5d7a99; color: #1e272e; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 13px; }
         .model-text { color: #f1c40f; font-weight: bold; font-size: 16px; }
-        .tutar-text { color: #2ecc71; font-weight: bold; font-size: 16px; }
+        .tutar-text { color: #52be80; font-weight: bold; font-size: 16px; }
 
         /* BUTONLAR */
-        .btn-detay { 
-            background: linear-gradient(135deg, #6c5ce7, #a29bfe); 
-            color: white; padding: 8px 15px; text-decoration: none; border-radius: 6px; 
+        .btn-detay {
+            background: linear-gradient(135deg, #34495e, #5d7a99);
+            color: white; padding: 8px 15px; text-decoration: none; border-radius: 6px;
             font-size: 13px; font-weight: bold; cursor: pointer; border: none; transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+            box-shadow: 0 4px 10px rgba(52, 73, 94, 0.4);
         }
         .btn-detay:hover { transform: scale(1.05); filter: brightness(1.1); }
         
         .btn-sil { 
-            background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c;
+            background: rgba(192, 96, 95, 0.2); color: #c0605f; border: 1px solid #c0605f;
             padding: 7px 12px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: bold; transition: 0.2s; 
         }
-        .btn-sil:hover { background: #e74c3c; color: white; }
+        .btn-sil:hover { background: #c0605f; color: white; }
         
         .btn-geri { display: inline-block; background-color: #636e72; color: white; padding: 12px 20px; text-decoration: none; border-radius: 8px; margin-bottom: 20px; font-weight: bold; }
 
@@ -50,7 +50,7 @@
         @keyframes animasyon { from {top:-50px; opacity:0} to {top:10%; opacity:1} }
         
         .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .close:hover { color: #e74c3c; }
+        .close:hover { color: #c0605f; }
         
         .detay-satir { 
             background: #353b48; margin: 10px 0; padding: 10px; border-radius: 8px; 
@@ -123,7 +123,7 @@
                             </div>
                             
                             <div style="margin-top:20px; border-top:1px solid #57606f; padding-top:10px;">
-                                <b>Toplam Tutar: <span style="color:#2ecc71;">{{ fis[6] }} TL</span></b>
+                                <b>Toplam Tutar: <span style="color:#52be80;">{{ fis[6] }} TL</span></b>
                             </div>
                         </div>
                     </div>

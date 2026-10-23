@@ -5,89 +5,159 @@
     <meta charset="UTF-8">
     <title>Triko Patron Paneli</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #1e272e; color: #ecf0f1; margin: 0; padding: 20px; }
-        
-        /* ÜST BİLGİ KARTI */
-        .header { background-color: #2f3640; padding: 25px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 40px; border-bottom: 5px solid #f1c40f; }
-        h1 { margin: 0; color: #f1c40f; font-size: 36px; letter-spacing: 1px; text-transform: uppercase; }
-        .stats { margin-top: 20px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
-        .stat-box { background: rgba(255,255,255,0.05); padding: 15px 30px; border-radius: 12px; font-weight: bold; font-size: 18px; border: 1px solid rgba(255,255,255,0.1); }
-        .stat-box span { color: #2ecc71; font-size: 22px; display: block; margin-top: 5px; }
-        .stat-box.alacak span { color: #e74c3c; }
-        .stat-box.stok span { color: #3498db; }
+        :root {
+            --bg: #f4f5f7;
+            --surface: #ffffff;
+            --border: #d8dce2;
+            --text-main: #23262b;
+            --text-sub: #6b7178;
+            --header-bar: #2f3b52;
+            --positive: #1a7a3c;
+            --negative: #b3251f;
+            --accent-border: #2f3b52;
+        }
 
-        /* KARTLARIN DÜZENİ */
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 10px; }
-        
-        .card { background-color: #353b48; padding: 30px; border-radius: 20px; text-align: center; transition: all 0.3s ease; border: 1px solid #485460; position: relative; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.4); border-color: #f1c40f; }
-        
-        .icon { font-size: 60px; margin-bottom: 20px; display: block; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
-        h3 { margin: 10px 0; font-size: 24px; color: #f5f6fa; }
-        p { color: #dcdde1; font-size: 14px; margin-bottom: 25px; min-height: 40px; }
+        * { box-sizing: border-box; }
+        body, html { margin: 0; padding: 0; background-color: var(--bg); color: var(--text-main); font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 14px; }
+        a { text-decoration: none; color: inherit; }
 
-        /* BUTONLAR */
-        .btn-group { display: flex; flex-direction: column; gap: 12px; }
-        a { text-decoration: none; padding: 15px; border-radius: 10px; font-weight: bold; transition: 0.3s; color: white; display: block; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        a:hover { filter: brightness(1.1); transform: scale(1.02); }
+        .titlebar { background: var(--header-bar); color: #fff; padding: 10px 24px; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; letter-spacing: 0.3px; }
+        .titlebar svg { width: 16px; height: 16px; opacity: 0.85; }
 
-        /* RENKLER */
-        .btn-is { background: linear-gradient(135deg, #0984e3, #74b9ff); }
-        .btn-iplik { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
-        .btn-finans-gir { background: linear-gradient(135deg, #00b894, #55efc4); color: #2d3436; }
-        .btn-finans-cik { background: linear-gradient(135deg, #d63031, #ff7675); }
-        .btn-rapor { background: linear-gradient(135deg, #f1c40f, #ffeaa7); color: #2d3436; }
-        .btn-liste { background: #2f3640; border: 2px solid #57606f; color: #bdc3c7; }
-        .btn-liste:hover { background: #57606f; color: white; }
+        .page { max-width: 1000px; margin: 0 auto; padding: 24px 24px 60px; }
+
+        /* ── Hesap özeti: gerçek bir muhasebe programı tablosu gibi ── */
+        .ledger-header { background: var(--surface); border: 1px solid var(--border); margin-bottom: 20px; }
+        .ledger-title-row { padding: 14px 20px; border-bottom: 1px solid var(--border); }
+        .ledger-title-row h1 { margin: 0; font-size: 16px; font-weight: 700; }
+        .ledger-title-row .sub { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+
+        .ledger-stats { display: grid; grid-template-columns: repeat(3, 1fr); }
+        .stat { padding: 14px 20px; border-right: 1px solid var(--border); }
+        .stat:last-child { border-right: none; }
+        .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-sub); font-weight: 700; margin-bottom: 5px; }
+        .stat-value { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+        .stat-value.positive { color: var(--positive); }
+        .stat-value.negative { color: var(--negative); }
+        .stat-value.neutral { color: var(--text-main); }
+        .stat-unit { font-size: 12px; font-weight: 600; color: var(--text-sub); margin-left: 3px; }
+
+        /* ── Modüller: gerçek bir liste/tablo görünümü ── */
+        .modules { background: var(--surface); border: 1px solid var(--border); }
+        .module-row { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+        .module-row:last-child { border-bottom: none; }
+        .module-row:nth-child(even) { background: #fafbfc; }
+
+        .module-icon { width: 34px; height: 34px; border: 1px solid var(--border); background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--text-sub); }
+        .module-icon svg { width: 17px; height: 17px; }
+
+        .module-body { flex: 1; min-width: 0; }
+        .module-body h3 { margin: 0 0 1px; font-size: 14px; font-weight: 700; }
+        .module-body p { margin: 0; font-size: 12px; color: var(--text-sub); }
+
+        .module-actions { display: flex; gap: 8px; flex-shrink: 0; }
+        .module-actions a { font-size: 12.5px; font-weight: 600; padding: 7px 13px; white-space: nowrap; border: 1px solid var(--border); background: #fff; color: var(--text-main); }
+        .module-actions a:hover { background: #eef0f3; border-color: #b9c0c9; }
+
+        .btn-primary { background: var(--header-bar) !important; color: #fff !important; border-color: var(--header-bar) !important; }
+        .btn-primary:hover { background: #253046 !important; }
+        .btn-positive { color: var(--positive) !important; border-color: #b7d9c1 !important; }
+        .btn-positive:hover { background: #eaf6ee !important; }
+        .btn-negative { color: var(--negative) !important; border-color: #e6bcb9 !important; }
+        .btn-negative:hover { background: #fbebea !important; }
+
+        @media (max-width: 620px) {
+            .ledger-stats { grid-template-columns: 1fr; }
+            .stat { border-right: none; border-bottom: 1px solid var(--border); }
+            .stat:last-child { border-bottom: none; }
+            .module-row { flex-wrap: wrap; }
+            .module-actions { width: 100%; }
+            .module-actions a { flex: 1; text-align: center; }
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🧶 TRİKO PATRON PANELİ</h1>
-        <div class="stats">
-            <div class="stat-box">💰 Kasa <span>{{ kasa }} TL</span></div>
-            <div class="stat-box alacak">📉 Alacak <span>{{ alacak }} TL</span></div>
-            <div class="stat-box stok">📦 İplik Stok <span>{{ stok }} KG</span></div>
-        </div>
+    <div class="titlebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg>
+        TRİKO PATRON PANELİ
     </div>
 
-    <div class="grid-container">
-        <div class="card" style="border-bottom: 5px solid #0984e3;">
-            <span class="icon">👕</span>
-            <h3>Giden İşler</h3>
-            <p>Atölyeye giden işleri takip et, borç yaz.</p>
-            <div class="btn-group">
-                <a href="/giden-is-ekle" class="btn-is">➕ Yeni İş Ekle</a>
-                <a href="/giden-is-listesi" class="btn-liste">📋 Listeyi Gör</a>
+    <div class="page">
+        <div class="ledger-header">
+            <div class="ledger-title-row">
+                <h1>Hesap Özeti</h1>
+                <div class="sub">Kasa, iplik stoku ve iş takibi</div>
+            </div>
+            <div class="ledger-stats">
+                <div class="stat">
+                    <div class="stat-label">Kasa</div>
+                    <div class="stat-value positive">{{ kasa }}<span class="stat-unit">TL</span></div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Alacak</div>
+                    <div class="stat-value negative">{{ alacak }}<span class="stat-unit">TL</span></div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">İplik Stok</div>
+                    <div class="stat-value neutral">{{ stok }}<span class="stat-unit">KG</span></div>
+                </div>
             </div>
         </div>
 
-        <div class="card" style="border-bottom: 5px solid #6c5ce7;">
-            <span class="icon">🧶</span>
-            <h3>İplik Depo</h3>
-            <p>Stoktaki iplikleri yönet, giriş yap.</p>
-            <div class="btn-group">
-                <a href="/iplik-gir" class="btn-iplik">➕ İplik Gir</a>
-                <a href="/iplik-listesi" class="btn-liste">📦 Depoyu Gör</a>
+        <div class="modules">
+            <div class="module-row">
+                <span class="module-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                </span>
+                <div class="module-body">
+                    <h3>Giden İşler</h3>
+                    <p>Atölyeye giden işleri takip et, borç yaz.</p>
+                </div>
+                <div class="module-actions">
+                    <a href="/giden-is-ekle" class="btn-primary">Yeni İş Ekle</a>
+                    <a href="/giden-is-listesi">Listeyi Gör</a>
+                </div>
             </div>
-        </div>
 
-        <div class="card" style="border-bottom: 5px solid #00b894;">
-            <span class="icon">💸</span>
-            <h3>Kasa & Finans</h3>
-            <p>Tahsilat ve giderleri buradan işle.</p>
-            <div class="btn-group">
-                <a href="/tahsilat-ekle" class="btn-finans-gir">💰 Tahsilat Al (Giriş)</a>
-                <a href="/gider-ekle" class="btn-finans-cik">💸 Gider Gir (Çıkış)</a>
+            <div class="module-row">
+                <span class="module-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M8 8c2 2 2 6 0 8M16 8c-2 2-2 6 0 8"/></svg>
+                </span>
+                <div class="module-body">
+                    <h3>İplik Depo</h3>
+                    <p>Stoktaki iplikleri yönet, giriş yap.</p>
+                </div>
+                <div class="module-actions">
+                    <a href="/iplik-gir" class="btn-primary">İplik Gir</a>
+                    <a href="/iplik-listesi">Depoyu Gör</a>
+                </div>
             </div>
-        </div>
 
-        <div class="card" style="border-bottom: 5px solid #f1c40f;">
-            <span class="icon">📊</span>
-            <h3>Haftalık Rapor</h3>
-            <p>Bu hafta kar/zarar durumu nedir?</p>
-            <div class="btn-group">
-                <a href="/haftalik-hesap" class="btn-rapor">📈 Raporu İncele</a>
+            <div class="module-row">
+                <span class="module-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="1"/><path d="M3 10h18"/></svg>
+                </span>
+                <div class="module-body">
+                    <h3>Kasa &amp; Finans</h3>
+                    <p>Tahsilat ve giderleri buradan işle.</p>
+                </div>
+                <div class="module-actions">
+                    <a href="/tahsilat-ekle" class="btn-positive">Tahsilat Al</a>
+                    <a href="/gider-ekle" class="btn-negative">Gider Gir</a>
+                </div>
+            </div>
+
+            <div class="module-row">
+                <span class="module-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V9M12 19V5M20 19v-6"/></svg>
+                </span>
+                <div class="module-body">
+                    <h3>Haftalık Rapor</h3>
+                    <p>Bu hafta kar/zarar durumu nedir?</p>
+                </div>
+                <div class="module-actions">
+                    <a href="/haftalik-hesap" class="btn-primary">Raporu İncele</a>
+                </div>
             </div>
         </div>
     </div>
