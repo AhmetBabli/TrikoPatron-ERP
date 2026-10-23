@@ -2,3 +2,8 @@ __pycache__/
 venv/
 .env
 *.db
+
+# PyInstaller ara dosyaları ve yerel yedekler
+build/
+*.bak_*
+*.spec.bak
