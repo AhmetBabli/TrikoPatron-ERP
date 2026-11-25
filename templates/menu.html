@@ -91,15 +91,15 @@
             <div class="ledger-stats">
                 <div class="stat">
                     <div class="stat-label">Kasa</div>
-                    <div class="stat-value positive">{{ kasa }}<span class="stat-unit">TL</span></div>
+                    <div class="stat-value positive">{{ "%.1f"|format(kasa) }}<span class="stat-unit">TL</span></div>
                 </div>
                 <div class="stat">
                     <div class="stat-label">Alacak</div>
-                    <div class="stat-value negative">{{ alacak }}<span class="stat-unit">TL</span></div>
+                    <div class="stat-value negative">{{ "%.1f"|format(alacak) }}<span class="stat-unit">TL</span></div>
                 </div>
                 <div class="stat">
                     <div class="stat-label">İplik Stok</div>
-                    <div class="stat-value neutral">{{ stok }}<span class="stat-unit">KG</span></div>
+                    <div class="stat-value neutral">{{ "%.1f"|format(stok) }}<span class="stat-unit">KG</span></div>
                 </div>
             </div>
         </div>

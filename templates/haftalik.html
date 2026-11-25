@@ -49,15 +49,15 @@
     <div class="ozet-kutulari">
         <div class="kart gelir">
             💰 TOPLAM GELİR<br>
-            <span style="font-size:24px; display:block; margin-top:5px;">{{ top_odeme }} TL</span>
+            <span style="font-size:24px; display:block; margin-top:5px;">{{ "%.1f"|format(top_odeme) }} TL</span>
         </div>
         <div class="kart gider">
             💸 TOPLAM GİDER<br>
-            <span style="font-size:24px; display:block; margin-top:5px;">{{ top_gider }} TL</span>
+            <span style="font-size:24px; display:block; margin-top:5px;">{{ "%.1f"|format(top_gider) }} TL</span>
         </div>
         <div class="kart net">
             📉 NET DURUM<br>
-            <span style="font-size:24px; display:block; margin-top:5px;">{{ net }} TL</span>
+            <span style="font-size:24px; display:block; margin-top:5px;">{{ "%.1f"|format(net) }} TL</span>
         </div>
     </div>
 
